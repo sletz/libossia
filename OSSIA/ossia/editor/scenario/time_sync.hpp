@@ -62,7 +62,7 @@ public:
   /*! set the expression of the #time_sync
  \details setting the expression to ExpressionTrue will defer the evaluation
  on #time_event's expression
- \details setting the expression to ExpressionFalse will mute TimeSync
+ \details setting the expression to ExpressionFalse will mute Synchronization
  execution
  \param expression_ptr
  \return #time_sync the time_sync */
@@ -100,7 +100,7 @@ public:
 
   void process_this(std::vector<time_event*>& statusChangedEvents);
 
-  /* is the TimeSync observing its Expression ? */
+  /* is the Synchronization observing its Expression ? */
   bool is_observing_expression() const;
 
   bool is_evaluating() const;

@@ -63,7 +63,7 @@ public:
 
 public:
   time_event(
-      time_event::exec_callback, time_sync& aTimeSync,
+      time_event::exec_callback, time_sync& aSynchronization,
       expression_ptr anExpression);
 
   /*! destructor */
@@ -169,7 +169,7 @@ public:
 private:
   time_event::exec_callback m_callback;
 
-  time_sync& m_timesync;
+  time_sync& m_synchronization;
   state m_state;
   status m_status;
   offset_behavior m_offset{offset_behavior::EXPRESSION_TRUE};

@@ -58,7 +58,7 @@ public:
    \return std::shared_ptr<#time_sync> start node */
   const std::shared_ptr<time_sync>& get_start_time_sync() const;
 
-  /*! get all TimeSyncs of the scenario
+  /*! get all Synchronizations of the scenario
    \return #Container<#time_sync> */
   const ptr_container<time_sync>& get_time_syncs() const;
 
@@ -68,7 +68,7 @@ public:
 
 private:
   ptr_container<time_interval> m_intervals;
-  ptr_container<time_sync> m_nodes; // list of all TimeSyncs of the scenario
+  ptr_container<time_sync> m_nodes; // list of all Synchronizations of the scenario
                                     // (the first is the start node, the
                                     // second is the end node)
 

@@ -17,7 +17,7 @@ bool time_sync::trigger(ossia::state& st)
   // if all TimeEvents are not PENDING
   if (m_pending.size() != get_time_events().size())
   {
-    // stop expression observation because the TimeSync is not ready to be
+    // stop expression observation because the Synchronization is not ready to be
     // processed
     observe_expression(false);
 
@@ -39,7 +39,7 @@ bool time_sync::trigger(ossia::state& st)
       ev.dispose();
   }
 
-  // stop expression observation now the TimeSync has been processed
+  // stop expression observation now the Synchronization has been processed
   observe_expression(false);
 
   // notify observers
@@ -215,7 +215,7 @@ void time_sync::process(std::vector<time_event*>& statusChangedEvents, ossia::st
   // at least one TimeInterval over its maximal duration
 
   // update the expression one time
-  // then observe and evaluate TimeSync's expression before to trig
+  // then observe and evaluate Synchronization's expression before to trig
   // only if no maximal duration have been reached
   if (*m_expression != expressions::expression_true()
       && !maximalDurationReached)

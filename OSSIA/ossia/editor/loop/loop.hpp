@@ -56,12 +56,12 @@ public:
   const std::shared_ptr<time_interval> get_time_interval() const;
 
   /*! get the pattern start #time_sync
-   \return std::shared_ptr<TimeSync> */
-  const std::shared_ptr<time_sync> get_start_timesync() const;
+   \return std::shared_ptr<Synchronization> */
+  const std::shared_ptr<time_sync> get_start_synchronization() const;
 
   /*! get the pattern end #time_sync
-   \return std::shared_ptr<TimeSync> */
-  const std::shared_ptr<time_sync> get_end_timesync() const;
+   \return std::shared_ptr<Synchronization> */
+  const std::shared_ptr<time_sync> get_end_synchronization() const;
 
 private:
   void interval_callback(double, time_value, const ossia::state_element&);

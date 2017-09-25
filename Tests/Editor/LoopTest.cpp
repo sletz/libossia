@@ -33,8 +33,8 @@ private Q_SLOTS:
         loop l(25._tv, interval_callback, event_callback, event_callback);
 
         QVERIFY(l.get_time_interval() != nullptr);
-        QVERIFY(l.get_start_timesync() != nullptr);
-        QVERIFY(l.get_end_timesync() != nullptr);
+        QVERIFY(l.get_start_synchronization() != nullptr);
+        QVERIFY(l.get_end_synchronization() != nullptr);
 
         //! \todo test clone()
     }

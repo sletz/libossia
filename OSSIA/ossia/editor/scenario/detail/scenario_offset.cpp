@@ -21,7 +21,7 @@ using past_events_map
 using DateMap = tsl::hopscotch_map<time_sync*, time_value>;
 using EventPtr = std::shared_ptr<ossia::time_event>;
 using IntervalPtr = std::shared_ptr<ossia::time_interval>;
-static void process_timesync_dates(time_sync& t, DateMap& map)
+static void process_synchronization_dates(time_sync& t, DateMap& map)
 {
   map.insert(std::make_pair(&t, t.get_date()));
 
@@ -29,15 +29,15 @@ static void process_timesync_dates(time_sync& t, DateMap& map)
   {
     for (IntervalPtr& cst : ev->next_time_intervals())
     {
-      process_timesync_dates(cst->get_end_event().get_time_sync(), map);
+      process_synchronization_dates(cst->get_end_event().get_time_sync(), map);
     }
   }
 }
 
 void process_offset(
-    time_sync& timesync, time_value offset, past_events_map& pastEvents)
+    time_sync& synchronization, time_value offset, past_events_map& pastEvents)
 {
-  time_value date = timesync.get_date();
+  time_value date = synchronization.get_date();
   auto get_event_status = [](const time_event& event) {
     switch (event.get_offset_behavior())
     {
@@ -54,7 +54,7 @@ void process_offset(
     }
   };
 
-  for (auto& ev_ptr : timesync.get_time_events())
+  for (auto& ev_ptr : synchronization.get_time_events())
   {
     auto& event = *ev_ptr;
     time_event::status eventStatus;
@@ -125,9 +125,9 @@ state_element scenario::offset(ossia::time_value offset, double pos)
   m_runningIntervals.clear();
   ossia::state cur_state;
 
-  // Precompute the default date of every timesync.
+  // Precompute the default date of every synchronization.
   tsl::hopscotch_map<time_sync*, time_value> time_map;
-  process_timesync_dates(*m_nodes[0], time_map);
+  process_synchronization_dates(*m_nodes[0], time_map);
 
   // Set *every* time interval prior to this one to be rigid
   // note : this change the semantics of the score and should not be done like
@@ -174,7 +174,7 @@ state_element scenario::offset(ossia::time_value offset, double pos)
     }
   }
 
-  // propagate offset from the first TimeSync
+  // propagate offset from the first Synchronization
   process_offset(*m_nodes[0], offset, pastEvents);
 
   // build offset state from all ordered past events

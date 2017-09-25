@@ -84,7 +84,7 @@ state_element loop::state(ossia::time_value date, double pos)
     // reset internal State
     m_currentState.clear();
 
-    // process the loop from the pattern start TimeSync
+    // process the loop from the pattern start Synchronization
     std::vector<time_event*> statusChangedEvents;
     if(unmuted())
     {
@@ -167,12 +167,12 @@ const std::shared_ptr<time_interval> loop::get_time_interval() const
   return m_interval;
 }
 
-const std::shared_ptr<time_sync> loop::get_start_timesync() const
+const std::shared_ptr<time_sync> loop::get_start_synchronization() const
 {
   return m_startNode;
 }
 
-const std::shared_ptr<time_sync> loop::get_end_timesync() const
+const std::shared_ptr<time_sync> loop::get_end_synchronization() const
 {
   return m_endNode;
 }

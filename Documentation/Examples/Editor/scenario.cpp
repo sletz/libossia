@@ -57,11 +57,11 @@ int main()
      Main scenario setup
      */
 
-    // create the start and the end TimeSyncs
+    // create the start and the end Synchronizations
     auto main_start_node = std::make_shared<time_sync>();
     auto main_end_node = std::make_shared<time_sync>();
 
-    // create time_events inside TimeSyncs and make them interactive to the /play address
+    // create time_events inside Synchronizations and make them interactive to the /play address
     auto main_start_event = *(main_start_node->emplace(main_start_node->get_time_events().begin(), &event_callback));
     auto main_end_event = *(main_end_node->emplace(main_end_node->get_time_events().begin(), &event_callback));
 
@@ -89,7 +89,7 @@ int main()
     // get the start node of the main scenario
     auto scenario_start_node = main_scenario->get_start_time_sync();
 
-    // create a TimeSync
+    // create a Synchronization
     auto first_end_node = std::make_shared<time_sync>();
 
     // create a time_event inside the scenario start node without Expression
@@ -111,7 +111,7 @@ int main()
     // add the first time_interval to the main scenario
     main_scenario->add_time_interval(first_interval);
 
-    // create a TimeSync
+    // create a Synchronization
     auto second_end_node = std::make_shared<time_sync>();
 
     // create a time_event inside the end node without Expression
@@ -198,7 +198,7 @@ int main()
      Main scenario operation : miscellaneous
      */
 
-    // display TimeSync's date
+    // display Synchronization's date
     cout << "first_start_node date = " << scenario_start_node->get_date() << endl;
     cout << "first_end_node date = " << first_end_node->get_date() << endl;
     cout << "second_end_node date = " << second_end_node->get_date() << endl;

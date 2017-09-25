@@ -182,7 +182,7 @@ void scenario::process_this(
   // at least one TimeInterval over its maximal duration
 
   // update the expression one time
-  // then observe and evaluate TimeSync's expression before to trig
+  // then observe and evaluate Synchronization's expression before to trig
   // only if no maximal duration have been reached
   if (*node.m_expression != expressions::expression_true()
       && !maximalDurationReached)
@@ -214,7 +214,7 @@ void scenario::process_this(
       make_dispose(ev, stopped);
   }
 
-  // stop expression observation now the TimeSync has been processed
+  // stop expression observation now the Synchronization has been processed
   node.observe_expression(false);
 
   // notify observers
@@ -480,7 +480,7 @@ state_element scenario::state(ossia::time_value date, double pos)
     ossia::state cur_state;
     // reset internal mCurrentState
 
-    // process the scenario from the first TimeSync to the running intervals
+    // process the scenario from the first Synchronization to the running intervals
     std::vector<time_event*> statusChangedEvents;
     time_sync& n = *m_nodes[0];
     n.process(statusChangedEvents);

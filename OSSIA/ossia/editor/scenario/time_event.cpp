@@ -7,10 +7,10 @@
 namespace ossia
 {
 time_event::time_event(
-    time_event::exec_callback callback, time_sync& aTimeSync,
+    time_event::exec_callback callback, time_sync& aSynchronization,
     expression_ptr anExpression)
     : m_callback(callback)
-    , m_timesync(aTimeSync)
+    , m_synchronization(aSynchronization)
     , m_status(time_event::status::NONE)
     , m_expression(std::move(anExpression))
 {
@@ -107,7 +107,7 @@ void time_event::remove_state(const state_element& state)
 
 time_sync& time_event::get_time_sync() const
 {
-  return m_timesync;
+  return m_synchronization;
 }
 
 const state& time_event::get_state() const

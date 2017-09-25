@@ -18,15 +18,15 @@ namespace ossia
 {
 scenario::scenario()
 {
-  // create the start TimeSync
+  // create the start Synchronization
   m_nodes.push_back(std::make_shared<time_sync>());
 }
 
 scenario::~scenario()
 {
-  for (auto& timesync : m_nodes)
+  for (auto& synchronization : m_nodes)
   {
-    timesync->cleanup();
+    synchronization->cleanup();
   }
 }
 
@@ -59,7 +59,7 @@ void scenario::start(ossia::state& st)
       m_runningIntervals.insert(&cst);
       cst.start(st);
     }
-    // the interval starts in the void and ends on a timesync that did
+    // the interval starts in the void and ends on a synchronization that did
     // execute
     else if (
         startStatus == time_event::status::NONE
@@ -157,18 +157,18 @@ void scenario::remove_time_interval(
   remove_one(m_intervals, timeInterval);
 }
 
-void scenario::add_time_sync(std::shared_ptr<time_sync> timeSync)
+void scenario::add_time_sync(std::shared_ptr<time_sync> synchronization)
 {
-  // store a TimeSync if it is not already stored
-  if (!contains(m_nodes, timeSync))
+  // store a Synchronization if it is not already stored
+  if (!contains(m_nodes, synchronization))
   {
-    m_nodes.push_back(std::move(timeSync));
+    m_nodes.push_back(std::move(synchronization));
   }
 }
 
-void scenario::remove_time_sync(const std::shared_ptr<time_sync>& timeSync)
+void scenario::remove_time_sync(const std::shared_ptr<time_sync>& synchronization)
 {
-  remove_one(m_nodes, timeSync);
+  remove_one(m_nodes, synchronization);
 }
 
 const std::shared_ptr<time_sync>& scenario::get_start_time_sync() const

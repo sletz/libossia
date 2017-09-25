@@ -11,7 +11,7 @@ void event_callback(time_event::status newStatus)
     ;
 }
 
-class TimeSyncTest : public QObject
+class SynchronizationTest : public QObject
 {
     Q_OBJECT
 
@@ -55,6 +55,6 @@ private Q_SLOTS:
     }
 };
 
-QTEST_APPLESS_MAIN(TimeSyncTest)
+QTEST_APPLESS_MAIN(SynchronizationTest)
 
-#include "TimeSyncTest.moc"
+#include "SynchronizationTest.moc"
