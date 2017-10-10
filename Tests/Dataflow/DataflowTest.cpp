@@ -17,6 +17,13 @@ public:
     m_outlets = std::move(out);
   }
 
+  node_mock(inlets in, outlets out, std::function<void(execution_state& e)> f)
+  {
+    m_inlets = std::move(in);
+    m_outlets = std::move(out);
+    fun = std::move(f);
+  }
+
   std::function<void(execution_state& e)> fun;
   void run(execution_state& e) override
   {
@@ -72,6 +79,23 @@ auto pop_front(T& container)
 }
 
 
+ossia::optional<float> pop_float(inlet_ptr p)
+{
+  if(p)
+  {
+    if(auto vp = p->data.target<value_port>())
+    {
+      try {
+        auto val = pop_front(vp->data);
+        if(auto flt = val.target<float>())
+        {
+          return *flt;
+        }
+      } { }
+    }
+  }
+  return ossia::none;
+}
 struct debug_mock
 {
   debug_mock(int f, std::weak_ptr<node_mock> p): factor{f}, node{p} { }
