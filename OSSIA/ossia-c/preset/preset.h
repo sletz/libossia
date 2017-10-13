@@ -74,8 +74,7 @@ ossia_preset_result ossia_presets_size(
  */
 
 OSSIA_EXPORT
-ossia_preset_result ossia_presets_to_string(
-        const ossia_preset_t,
+ossia_preset_result ossia_presets_to_string(const ossia_preset_t,
         const char **);
 
 

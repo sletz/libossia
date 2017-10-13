@@ -515,7 +515,7 @@ void qml_device::loadPreset(QObject* root, QString file)
       // Then load the preset
       auto kv = ossia::presets::read_json(f.readAll().toStdString());
       ossia::presets::apply_preset(
-          device().get_root_node(), kv, ossia::presets::keep_arch_off);
+                  device().get_root_node(), kv, ossia::presets::keep_arch_off, {}, false, true);
 
       // Clear empty elements that may have been removed
       clearEmptyElements();

@@ -57,6 +57,52 @@ private slots:
     qDebug() << str.c_str();
   }
 
+  void test_bool()
+  {
+    using namespace std::literals;
+
+    ossia::net::generic_device dev{std::make_unique<ossia::net::multiplex_protocol>(), "mydevice"};
+
+    auto& root = dev.get_root_node();
+    ossia::net::set_app_creator(root, "test"s);
+    ossia::net::set_app_version(root, "v1.0"s);
+
+    auto& n1 = ossia::net::find_or_create_node(root, "/t");
+    auto a1 = n1.create_parameter(ossia::val_type::BOOL);
+    a1->push_value(true);
+    auto& n2 = ossia::net::find_or_create_node(root, "/f");
+    auto a2 = n2.create_parameter(ossia::val_type::BOOL);
+    a2->push_value(false);
+
+    auto preset = ossia::presets::make_preset(dev);
+    {
+        auto presetJSON = ossia::presets::write_json("mydevice", preset);
+        qDebug() << presetJSON.c_str();
+        a1->push_value(false);
+        a2->push_value(true);
+
+        auto np = ossia::presets::read_json(presetJSON);
+        //QVERIFY(preset == np);
+
+        ossia::presets::apply_preset(root, np, ossia::presets::keep_arch_on, {}, false, true);
+        QVERIFY(a1->value() == ossia::value{true});
+        QVERIFY(a2->value() == ossia::value{false});
+    }
+    {
+        auto presetTXT = ossia::presets::to_string(preset);
+        qDebug() << presetTXT.c_str();
+        a1->push_value(false);
+        a2->push_value(true);
+
+        auto np = ossia::presets::from_string(presetTXT);
+        QVERIFY(preset == np);
+
+        ossia::presets::apply_preset(root, np);
+        QVERIFY(a1->value() == ossia::value{true});
+        QVERIFY(a2->value() == ossia::value{false});
+    }
+  }
+
   void test_nodes()
   {
 
@@ -87,8 +133,8 @@ private slots:
         "/.0",
         "/.1"
   }) {
-  	  std::string res;
-      bool ok = boost::spirit::x3::phrase_parse(str.begin(), str.end(), ossia::detail::parse::address_, 
+      std::string res;
+      bool ok = boost::spirit::x3::phrase_parse(str.begin(), str.end(), ossia::detail::parse::address_,
                   boost::spirit::x3::ascii::space, res);
       QVERIFY(ok);
     }
@@ -105,7 +151,7 @@ private slots:
                   );
       QVERIFY(ok);
     }
-    
+
 
     for(std::string str : {
         "vec4f: [0, 0, 0, 0]",
@@ -113,6 +159,8 @@ private slots:
         "string: \"hello\"",
         "char: 'x'",
         "float: 1.2345",
+        "bool: true",
+        "bool: false",
         "list: []",
         "list: [ ]",
         "list: [char: '0']",

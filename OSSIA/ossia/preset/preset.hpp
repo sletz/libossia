@@ -65,14 +65,17 @@ OSSIA_EXPORT const std::string
 read_file(const std::string& filename);
 
 OSSIA_EXPORT void apply_preset(
-    ossia::net::node_base&, const presets::preset&,
-    keep_arch_type t = keep_arch_on, presets::instance_functions = {}, bool allow_nonterminal = false);
+    ossia::net::node_base&
+    , const presets::preset&
+    , keep_arch_type t = keep_arch_on
+    , presets::instance_functions = {}
+    , bool allow_nonterminal = false
+    , bool remove_first = false);
 
 OSSIA_EXPORT presets::preset make_preset(ossia::net::node_base&);
 
 OSSIA_EXPORT ossia::net::node_base*
 get_node(ossia::net::node_base&, const std::string&);
-OSSIA_EXPORT std::string to_string(const ossia::net::device_base& ossiadev);
 
 } // namespace presets
 } // namespace ossia

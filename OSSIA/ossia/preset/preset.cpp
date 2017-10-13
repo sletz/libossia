@@ -217,25 +217,6 @@ ossia_devices_make_preset(ossia_device_t odev, ossia_preset_t* presetptr)
   return OSSIA_PRESETS_NULL_DEVICE;
 }
 
-ossia_preset_result
-ossia_devices_to_string(ossia_device_t odev, const char** buffer)
-{
-  if (odev != nullptr)
-  {
-    try
-    {
-      assert(odev->device);
-      *buffer = copy_string(ossia::presets::to_string(*(odev->device)));
-      return OSSIA_PRESETS_OK;
-    }
-    catch (...)
-    {
-      return lippincott();
-    }
-  }
-  return OSSIA_PRESETS_NULL_DEVICE;
-}
-
 ossia_preset_result ossia_devices_get_node(
     ossia_device_t odev, const char* addr, ossia_node_t* nodeptr)
 {
@@ -682,7 +663,8 @@ ossia::presets::preset ossia::presets::from_string(const ossia::string_view& str
                         boost::spirit::x3::ascii::space,
                         ps);
   if(!r)
-    ossia::logger().error("ossia::presetss::from_string error: {}", str);
+    ossia::logger().error("ossia::presets::from_string error: {}", str);
+
   return ps;
 }
 
@@ -1066,7 +1048,8 @@ void ossia::presets::apply_preset(
     ossia::net::node_base& node, const ossia::presets::preset& preset,
     ossia::presets::keep_arch_type keeparch,
     presets::instance_functions functions,
-    bool allow_nonterminal)
+    bool allow_nonterminal,
+    bool remove_first)
 {
   std::vector<ossia::net::node_base*> created_nodes;
 
@@ -1078,14 +1061,14 @@ void ossia::presets::apply_preset(
         boost::token_compress_on);
     if(!keys.empty())
       keys.erase(keys.begin()); // first subtring is empty
-    if(!allow_nonterminal)
+    if(remove_first)
     {
       if(!keys.empty())
         keys.erase(keys.begin()); // then we have to remove the "initial" key which is the device name
     }
     if(node.get_parent())
       keys.erase(keys.begin()); // remove another one in case node is not a root
-    
+
     apply_preset_node(
         node, keys, itpp->second, keeparch, created_nodes, allow_nonterminal);
   }
@@ -1196,17 +1179,6 @@ void to_string_node(
       strnodes.push_back(nodename + ": " + ossia_value_to_std_string(v));
     }
   }
-}
-
-std::string ossia::presets::to_string(const ossia::net::device_base& ossiadev)
-{
-  auto& root = ossiadev.get_root_node();
-  std::stringstream ss;
-  std::vector<std::string> strnodes;
-  std::vector<std::string> keys;
-  to_string_node(root, strnodes, keys);
-  ss << "[" << boost::join(strnodes, ", ") << "]";
-  return std::string(ss.str());
 }
 
 /// Exception handling ///
